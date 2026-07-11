@@ -242,14 +242,25 @@ const firebaseConfig = {
 try {
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    const presenceRef = db.ref("presence");
-    const myRef = presenceRef.push();
 
-    // Silently register this visit — nothing shown on the public page.
-    // Remove the entry automatically the moment they disconnect.
-    myRef.onDisconnect().remove();
-    myRef.set({
+    // "presence" = who's on right now (removed the instant they leave)
+    const presenceRef = db.ref("presence");
+    const myPresenceRef = presenceRef.push();
+    myPresenceRef.onDisconnect().remove();
+    myPresenceRef.set({
         joinedAt: firebase.database.ServerValue.TIMESTAMP,
+        userAgent: navigator.userAgent
+    });
+
+    // "history" = a running log of visits, kept so admin can see who was
+    // here recently even after they've left. leftAt gets filled in on disconnect.
+    const historyRef = db.ref("history").push();
+    historyRef.onDisconnect().update({
+        leftAt: firebase.database.ServerValue.TIMESTAMP
+    });
+    historyRef.set({
+        joinedAt: firebase.database.ServerValue.TIMESTAMP,
+        leftAt: null,
         userAgent: navigator.userAgent
     });
 } catch (e) {
