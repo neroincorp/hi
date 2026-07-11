@@ -19,8 +19,8 @@
         align-items: center;
         font-family: Arial, sans-serif;
         font-size: 4rem;
-        background: white;
-        color: black;
+        background: black;
+        color: white;
         transition: background 0.5s, color 0.5s;
     }
 
@@ -37,8 +37,8 @@
         cursor: pointer;
         border: none;
         border-radius: 12px;
-        background: black;
-        color: white;
+        background: white;
+        color: black;
         transition: 0.3s;
         z-index: 2;
     }
@@ -47,14 +47,14 @@
         transform: scale(1.05);
     }
 
-    .dark-mode {
-        background: black;
-        color: white;
-    }
-
-    .dark-mode button {
+    .light-mode {
         background: white;
         color: black;
+    }
+
+    .light-mode button {
+        background: black;
+        color: white;
     }
 
     .particle {
@@ -64,7 +64,7 @@
         height: 7px;
         background: currentColor;
         border-radius: 50%;
-        opacity: 0.15;
+        opacity: 0.25;
         animation: fall linear infinite;
         pointer-events: none;
     }
@@ -83,7 +83,7 @@
 
 <body>
 
-<button id="toggleButton" onclick="toggleMode()">Dark Mode</button>
+<button id="toggleButton" onclick="toggleMode()">Light Mode</button>
 
 <div class="text">
     Hello
@@ -93,14 +93,14 @@
 <script>
 
 function toggleMode() {
-    document.body.classList.toggle("dark-mode");
+    document.body.classList.toggle("light-mode");
 
     const button = document.getElementById("toggleButton");
 
-    if (document.body.classList.contains("dark-mode")) {
-        button.textContent = "Light Mode";
-    } else {
+    if (document.body.classList.contains("light-mode")) {
         button.textContent = "Dark Mode";
+    } else {
+        button.textContent = "Light Mode";
     }
 }
 
@@ -121,6 +121,7 @@ for (let i = 0; i < 60; i++) {
         Math.random() * 10 + "s";
 
     let size = Math.random() * 6 + 3;
+
     particle.style.width = size + "px";
     particle.style.height = size + "px";
 
