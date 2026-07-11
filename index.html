@@ -21,7 +21,11 @@
         font-size: 4rem;
         background: white;
         color: black;
-        transition: 0.5s;
+        transition: background 0.5s, color 0.5s;
+    }
+
+    .text {
+        z-index: 1;
     }
 
     button {
@@ -32,8 +36,15 @@
         font-size: 16px;
         cursor: pointer;
         border: none;
-        border-radius: 10px;
+        border-radius: 12px;
+        background: black;
+        color: white;
+        transition: 0.3s;
         z-index: 2;
+    }
+
+    button:hover {
+        transform: scale(1.05);
     }
 
     .dark-mode {
@@ -41,33 +52,31 @@
         color: white;
     }
 
-    .dark-button {
+    .dark-mode button {
         background: white;
         color: black;
     }
 
     .particle {
         position: absolute;
-        width: 8px;
-        height: 8px;
+        top: -20px;
+        width: 7px;
+        height: 7px;
         background: currentColor;
         border-radius: 50%;
-        opacity: 0.2;
-        animation: float 20s infinite linear;
+        opacity: 0.15;
+        animation: fall linear infinite;
+        pointer-events: none;
     }
 
-    @keyframes float {
+    @keyframes fall {
         from {
-            transform: translateY(110vh) translateX(0);
+            transform: translateY(-20px);
         }
 
         to {
-            transform: translateY(-10vh) translateX(100px);
+            transform: translateY(110vh);
         }
-    }
-
-    .text {
-        z-index: 1;
     }
 </style>
 </head>
@@ -80,6 +89,7 @@
     Hello
 </div>
 
+
 <script>
 
 function toggleMode() {
@@ -89,22 +99,30 @@ function toggleMode() {
 
     if (document.body.classList.contains("dark-mode")) {
         button.textContent = "Light Mode";
-        button.classList.add("dark-button");
     } else {
         button.textContent = "Dark Mode";
-        button.classList.remove("dark-button");
     }
 }
 
 
-// Create particles
-for (let i = 0; i < 50; i++) {
+// Create falling particles
+for (let i = 0; i < 60; i++) {
+
     let particle = document.createElement("div");
+
     particle.className = "particle";
 
     particle.style.left = Math.random() * 100 + "vw";
-    particle.style.animationDuration = (15 + Math.random() * 20) + "s";
-    particle.style.animationDelay = Math.random() * 10 + "s";
+
+    particle.style.animationDuration =
+        (6 + Math.random() * 12) + "s";
+
+    particle.style.animationDelay =
+        Math.random() * 10 + "s";
+
+    let size = Math.random() * 6 + 3;
+    particle.style.width = size + "px";
+    particle.style.height = size + "px";
 
     document.body.appendChild(particle);
 }
