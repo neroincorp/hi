@@ -4,271 +4,183 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hello</title>
-
-<!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJGPM30HQK"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FJGPM30HQK');
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-FJGPM30HQK');
 </script>
-
-<!-- Firebase (for live visitor presence) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
 <style>
 * {
-    box-sizing: border-box;
+box-sizing: border-box;
 }
-
 body {
-    margin: 0;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    font-size: 4rem;
-    background: black;
-    color: white;
-    transition: 0.5s;
+margin: 0;
+height: 100vh;
+overflow: hidden;
+display: flex;
+justify-content: center;
+align-items: center;
+font-family: Arial, sans-serif;
+font-size: 4rem;
+background: black;
+color: white;
+transition: 0.5s;
 }
-
 .text {
-    z-index: 1;
-    font-weight: 600;
+z-index: 1;
+font-weight: 600;
 }
-
-
 /* Buttons */
 button {
-    position: fixed;
-    right: 25px;
-    cursor: pointer;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 18px;
-    backdrop-filter: blur(10px);
-    transition: 0.3s ease;
-    z-index: 2;
+position: fixed;
+right: 25px;
+cursor: pointer;
+border: 1px solid rgba(255,255,255,0.2);
+border-radius: 18px;
+backdrop-filter: blur(10px);
+transition: 0.3s ease;
+z-index: 2;
 }
-
 button:hover {
-    transform: scale(1.08);
+transform: scale(1.08);
 }
-
-
 /* Theme button */
 #themeButton {
-    top: 25px;
-    padding: 12px 22px;
-    font-size: 15px;
-    background: rgba(255,255,255,0.15);
-    color: white;
+top: 25px;
+padding: 12px 22px;
+font-size: 15px;
+background: rgba(255,255,255,0.15);
+color: white;
 }
-
-
 /* Music button */
 #musicButton {
-    top: 80px;
-    width: 55px;
-    height: 55px;
-    padding: 10px;
-    background: rgba(255,255,255,0.15);
+top: 80px;
+width: 55px;
+height: 55px;
+padding: 10px;
+background: rgba(255,255,255,0.15);
 }
-
-
 #musicButton img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+width: 100%;
+height: 100%;
+object-fit: contain;
 }
-
-
 /* Light mode */
 .light-mode {
-    background: white;
-    color: black;
+background: white;
+color: black;
 }
-
-
 .light-mode #themeButton {
-    background: black;
-    color: white;
-    border-color: black;
+background: black;
+color: white;
+border-color: black;
 }
-
-
 .light-mode #musicButton {
-    background: black;
-    border-color: black;
+background: black;
+border-color: black;
 }
-
 /* Falling particles */
 .particle {
-    position: absolute;
-    top: -20px;
-    width: 7px;
-    height: 7px;
-    background: currentColor;
-    border-radius: 50%;
-    opacity: 0.25;
-    animation: fall linear infinite;
-    pointer-events: none;
+position: absolute;
+top: -20px;
+width: 7px;
+height: 7px;
+background: currentColor;
+border-radius: 50%;
+opacity: 0.25;
+animation: fall linear infinite;
+pointer-events: none;
 }
-
-
 @keyframes fall {
-
-    from {
-        transform: translateY(-20px);
-    }
-
-    to {
-        transform: translateY(110vh);
-    }
-
+from {
+transform: translateY(-20px);
 }
-
+to {
+transform: translateY(110vh);
+}
+}
 </style>
 </head>
-
-
 <body>
-
-
 <button id="themeButton" onclick="toggleMode()">
-    Light Mode
+Light Mode
 </button>
-
-
 <button id="musicButton" onclick="toggleMusic()">
-    <img src="music.png" alt="Music">
+<img src="music.png" alt="Music">
 </button>
-
-
 <div class="text">
-    Hello
+Hello
 </div>
-
 <audio id="music" loop>
-    <source src="music.mp3" type="audio/mpeg">
+<source src="music.mp3" type="audio/mpeg">
 </audio>
-
-
-
 <script>
-
-
 function toggleMode() {
-
-    document.body.classList.toggle("light-mode");
-
-    const button = document.getElementById("themeButton");
-
-    if (document.body.classList.contains("light-mode")) {
-        button.textContent = "Dark Mode";
-    } else {
-        button.textContent = "Light Mode";
-    }
-
+document.body.classList.toggle("light-mode");
+const button = document.getElementById("themeButton");
+if (document.body.classList.contains("light-mode")) {
+button.textContent = "Dark Mode";
+} else {
+button.textContent = "Light Mode";
 }
-
-
-
+}
 const music = document.getElementById("music");
-
-
 function toggleMusic() {
-
-    if (music.paused) {
-        music.play();
-    } else {
-        music.pause();
-    }
-
+if (music.paused) {
+music.play();
+} else {
+music.pause();
 }
-
-
-
-// Create falling particles
-
+}
 for (let i = 0; i < 60; i++) {
-
-    let particle = document.createElement("div");
-
-    particle.className = "particle";
-
-    particle.style.left = Math.random() * 100 + "vw";
-
-    particle.style.animationDuration =
-        (6 + Math.random() * 12) + "s";
-
-    particle.style.animationDelay =
-        Math.random() * 10 + "s";
-
-
-    let size = Math.random() * 6 + 3;
-
-    particle.style.width = size + "px";
-    particle.style.height = size + "px";
-
-
-    document.body.appendChild(particle);
-
+let particle = document.createElement("div");
+particle.className = "particle";
+particle.style.left = Math.random() * 100 + "vw";
+particle.style.animationDuration =
+(6 + Math.random() * 12) + "s";
+particle.style.animationDelay =
+Math.random() * 10 + "s";
+let size = Math.random() * 6 + 3;
+particle.style.width = size + "px";
+particle.style.height = size + "px";
+document.body.appendChild(particle);
 }
-
-
-// ---- Live visitor presence (Firebase Realtime Database) ----
-// 1. Create a free project at https://console.firebase.google.com
-// 2. Enable "Realtime Database" (start in test mode)
-// 3. Replace the config below with your project's config
-//    (Project settings -> General -> Your apps -> SDK setup and config)
-
 const firebaseConfig = {
-    apiKey: "AIzaSyAxW2KuugQHAvfyYW0kIgRY6E6y5I0rLng",
-    authDomain: "visitors-31b6e.firebaseapp.com",
-    databaseURL: "https://visitors-31b6e-default-rtdb.firebaseio.com",
-    projectId: "visitors-31b6e",
-    storageBucket: "visitors-31b6e.firebasestorage.app",
-    messagingSenderId: "1078510458740",
-    appId: "1:1078510458740:web:1bf30af84374203c68fe21",
-    measurementId: "G-MT7TYW2R8M"
+apiKey: "AIzaSyAxW2KuugQHAvfyYW0kIgRY6E6y5I0rLng",
+authDomain: "visitors-31b6e.firebaseapp.com",
+databaseURL: "https://visitors-31b6e-default-rtdb.firebaseio.com",
+projectId: "visitors-31b6e",
+storageBucket: "visitors-31b6e.firebasestorage.app",
+messagingSenderId: "1078510458740",
+appId: "1:1078510458740:web:1bf30af84374203c68fe21",
+measurementId: "G-MT7TYW2R8M"
 };
-
 try {
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    // "presence" = who's on right now (removed the instant they leave)
-    const presenceRef = db.ref("presence");
-    const myPresenceRef = presenceRef.push();
-    myPresenceRef.onDisconnect().remove();
-    myPresenceRef.set({
-        joinedAt: firebase.database.ServerValue.TIMESTAMP,
-        userAgent: navigator.userAgent
-    });
-
-    // "history" = a running log of visits, kept so admin can see who was
-    // here recently even after they've left. leftAt gets filled in on disconnect.
-    const historyRef = db.ref("history").push();
-    historyRef.onDisconnect().update({
-        leftAt: firebase.database.ServerValue.TIMESTAMP
-    });
-    historyRef.set({
-        joinedAt: firebase.database.ServerValue.TIMESTAMP,
-        leftAt: null,
-        userAgent: navigator.userAgent
-    });
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const presenceRef = db.ref("presence");
+const myPresenceRef = presenceRef.push();
+myPresenceRef.onDisconnect().remove();
+myPresenceRef.set({
+joinedAt: firebase.database.ServerValue.TIMESTAMP,
+userAgent: navigator.userAgent
+});
+const historyRef = db.ref("history").push();
+historyRef.onDisconnect().update({
+leftAt: firebase.database.ServerValue.TIMESTAMP
+});
+historyRef.set({
+joinedAt: firebase.database.ServerValue.TIMESTAMP,
+leftAt: null,
+userAgent: navigator.userAgent
+});
 } catch (e) {
-    console.error("Visitor presence unavailable:", e);
+console.error("Visitor presence unavailable:", e);
 }
-
 </script>
-
-
 </body>
 </html>
