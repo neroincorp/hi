@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hello</title>
 
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FJGPM30HQK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FJGPM30HQK');
+</script>
+
 <style>
 * {
     box-sizing: border-box;
@@ -81,7 +91,6 @@ button:hover {
 }
 
 
-/* Fix buttons in light mode */
 .light-mode #themeButton {
     background: black;
     color: white;
@@ -95,7 +104,7 @@ button:hover {
 }
 
 
-/* Particles */
+/* Falling particles */
 .particle {
     position: absolute;
     top: -20px;
@@ -183,7 +192,7 @@ function toggleMusic() {
 
 
 
-// Falling particles
+// Create falling particles
 
 for (let i = 0; i < 60; i++) {
 
