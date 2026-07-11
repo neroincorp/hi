@@ -15,6 +15,10 @@
   gtag('config', 'G-FJGPM30HQK');
 </script>
 
+<!-- Firebase (for live visitor presence) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
 <style>
 * {
     box-sizing: border-box;
@@ -103,7 +107,6 @@ button:hover {
     border-color: black;
 }
 
-
 /* Falling particles */
 .particle {
     position: absolute;
@@ -150,7 +153,6 @@ button:hover {
 <div class="text">
     Hello
 </div>
-
 
 <audio id="music" loop>
     <source src="music.mp3" type="audio/mpeg">
@@ -219,6 +221,40 @@ for (let i = 0; i < 60; i++) {
 
 }
 
+
+// ---- Live visitor presence (Firebase Realtime Database) ----
+// 1. Create a free project at https://console.firebase.google.com
+// 2. Enable "Realtime Database" (start in test mode)
+// 3. Replace the config below with your project's config
+//    (Project settings -> General -> Your apps -> SDK setup and config)
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAxW2KuugQHAvfyYW0kIgRY6E6y5I0rLng",
+  authDomain: "visitors-31b6e.firebaseapp.com",
+  databaseURL: "https://visitors-31b6e-default-rtdb.firebaseio.com",
+  projectId: "visitors-31b6e",
+  storageBucket: "visitors-31b6e.firebasestorage.app",
+  messagingSenderId: "1078510458740",
+  appId: "1:1078510458740:web:1bf30af84374203c68fe21",
+  measurementId: "G-MT7TYW2R8M"
+};
+
+try {
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const presenceRef = db.ref("presence");
+    const myRef = presenceRef.push();
+
+    // Silently register this visit — nothing shown on the public page.
+    // Remove the entry automatically the moment they disconnect.
+    myRef.onDisconnect().remove();
+    myRef.set({
+        joinedAt: firebase.database.ServerValue.TIMESTAMP,
+        userAgent: navigator.userAgent
+    });
+} catch (e) {
+    console.error("Visitor presence unavailable:", e);
+}
 
 </script>
 
