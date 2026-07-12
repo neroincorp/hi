@@ -189,7 +189,7 @@ ip: data2.ip || null
 }
 base.vpn = "unknown";
 try {
-const vpnRes = await fetch(`https://proxycheck.io/v2/?key=public-YOUR-PUBLIC-KEY&vpn=1&asn=1`);
+const vpnRes = await fetch(`https://proxycheck.io/v2/?key=public-9633m3-717708-o78146&vpn=1&asn=1`);
 const vpnData = await vpnRes.json();
 console.log("proxycheck response:", vpnData);
 if ((vpnData.status === "ok" || vpnData.status === "warning") && vpnData[vpnData.ip]) {
@@ -199,8 +199,6 @@ base.vpn = entry.proxy === "yes" ? (entry.type || "yes") : "no";
 } catch (e) {
 console.log("proxycheck fetch failed:", e);
 }
-}
-} catch (e) {}
 return base;
 }
 function sanitizeIp(ip) {
