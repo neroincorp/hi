@@ -162,15 +162,31 @@ measurementId: "G-MT7TYW2R8M"
 async function getLocation() {
 let base = { city: "unknown", region: "unknown", country: "unknown", ip: null };
 try {
-const res = await fetch("https://ipapi.co/json/");
+const res = await fetch("https://ipwho.is/");
 const data = await res.json();
+if (data.success !== false) {
 base = {
 city: data.city || "unknown",
 region: data.region || "unknown",
-country: data.country_name || "unknown",
+country: data.country || "unknown",
 ip: data.ip || null
 };
+}
 } catch (e) {}
+if (!base.ip) {
+try {
+const res2 = await fetch("https://ipapi.co/json/");
+const data2 = await res2.json();
+if (!data2.error) {
+base = {
+city: data2.city || "unknown",
+region: data2.region || "unknown",
+country: data2.country_name || "unknown",
+ip: data2.ip || null
+};
+}
+} catch (e) {}
+}
 base.vpn = "unknown";
 try {
 if (base.ip) {
