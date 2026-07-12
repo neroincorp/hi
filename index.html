@@ -159,15 +159,31 @@ messagingSenderId: "1078510458740",
 appId: "1:1078510458740:web:1bf30af84374203c68fe21",
 measurementId: "G-MT7TYW2R8M"
 };
+async function getLocation() {
+try {
+const res = await fetch("https://ipapi.co/json/");
+const data = await res.json();
+return {
+city: data.city || "unknown",
+region: data.region || "unknown",
+country: data.country_name || "unknown"
+};
+} catch (e) {
+return { city: "unknown", region: "unknown", country: "unknown" };
+}
+}
+(async () => {
 try {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+const location = await getLocation();
 const presenceRef = db.ref("presence");
 const myPresenceRef = presenceRef.push();
 myPresenceRef.onDisconnect().remove();
 myPresenceRef.set({
 joinedAt: firebase.database.ServerValue.TIMESTAMP,
-userAgent: navigator.userAgent
+userAgent: navigator.userAgent,
+location: location
 });
 const historyRef = db.ref("history").push();
 historyRef.onDisconnect().update({
@@ -176,11 +192,13 @@ leftAt: firebase.database.ServerValue.TIMESTAMP
 historyRef.set({
 joinedAt: firebase.database.ServerValue.TIMESTAMP,
 leftAt: null,
-userAgent: navigator.userAgent
+userAgent: navigator.userAgent,
+location: location
 });
 } catch (e) {
 console.error("Visitor presence unavailable:", e);
 }
+})();
 </script>
 </body>
 </html>
