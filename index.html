@@ -212,27 +212,40 @@ const location = await getLocation();
 if (location.ip) {
 const banSnap = await db.ref("bannedIPs/" + sanitizeIp(location.ip)).once("value");
 if (banSnap.exists() && banSnap.val() === true) {
-document.body.innerHTML = `
+const overlay = document.createElement("div");
+overlay.style.cssText = `
+position: fixed;
+inset: 0;
+z-index: 9999;
+background: rgba(0,0,0,0.5);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 20px;
+`;
+overlay.innerHTML = `
 <div style="
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-height:100vh;
-width:100%;
-font-family:Arial, sans-serif;
-text-align:center;
-padding:20px;
+background: #141414;
+border: 1px solid rgba(255,255,255,0.12);
+border-radius: 16px;
+padding: 32px 36px;
+max-width: 360px;
+text-align: center;
+font-family: Arial, sans-serif;
+box-shadow: 0 20px 60px rgba(0,0,0,0.6);
 ">
-<div style="font-size:2.5rem; font-weight:700; letter-spacing:0.5px;">Access Restricted</div>
-<div style="font-size:1rem; font-weight:400; opacity:0.7; margin-top:14px; max-width:480px; line-height:1.5;">
-Your IP address has been blocked from accessing this site. If you believe this is a mistake, please contact the site administrator.
+<div style="font-size: 1.6rem; font-weight: 700; color: #fff; margin-bottom: 10px;">You've Been Banned</div>
+<div style="font-size: 0.9rem; color: rgba(255,255,255,0.65); line-height: 1.5;">
+Your IP address has been blocked from accessing this site.
 </div>
-<div style="font-size:0.8rem; opacity:0.4; margin-top:28px; font-family:monospace;">
+<div style="font-size: 0.75rem; color: rgba(255,255,255,0.35); margin-top: 20px; font-family: monospace;">
 Error Code: 403 — Forbidden
 </div>
 </div>
 `;
+document.body.appendChild(overlay);
 return;
 }
 }
