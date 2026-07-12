@@ -190,7 +190,7 @@ ip: data2.ip || null
 base.vpn = "unknown";
 try {
 if (base.ip) {
-const vpnRes = await fetch(`https://proxycheck.io/v2/${base.ip}?key=8638ni-9q401s-p63f1s-646533&vpn=1&asn=1`);
+const vpnRes = await fetch(`https://proxycheck.io/v2/${base.ip}?key=public-9633m3-717708-o78146vpn=1&asn=1`);
 const vpnData = await vpnRes.json();
 const entry = vpnData[base.ip];
 if (entry) {
