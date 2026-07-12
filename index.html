@@ -112,7 +112,7 @@ Light Mode
 <button id="musicButton" onclick="toggleMusic()">
 <img src="music.png" alt="Music">
 </button>
-<div class="text">
+<div class="text" id="mainText">
 Hello
 </div>
 <audio id="music" loop>
@@ -176,6 +176,12 @@ return { city: "unknown", region: "unknown", country: "unknown" };
 try {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+db.ref("siteMessage").on("value", (snapshot) => {
+const val = snapshot.val();
+if (val) {
+document.getElementById("mainText").textContent = val;
+}
+});
 const location = await getLocation();
 const presenceRef = db.ref("presence");
 const myPresenceRef = presenceRef.push();
