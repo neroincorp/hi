@@ -159,13 +159,12 @@ messagingSenderId: "1078510458740",
 appId: "1:1078510458740:web:1bf30af84374203c68fe21",
 measurementId: "G-MT7TYW2R8M"
 };
-async function getLocation() {
-let base = { city: "unknown", region: "unknown", country: "unknown", ip: null };
+async function getGeo() {
 try {
 const res = await fetch("https://ipwho.is/");
 const data = await res.json();
 if (data.success !== false) {
-base = {
+return {
 city: data.city || "unknown",
 region: data.region || "unknown",
 country: data.country || "unknown",
@@ -173,12 +172,11 @@ ip: data.ip || null
 };
 }
 } catch (e) {}
-if (!base.ip) {
 try {
 const res2 = await fetch("https://ipapi.co/json/");
 const data2 = await res2.json();
 if (!data2.error) {
-base = {
+return {
 city: data2.city || "unknown",
 region: data2.region || "unknown",
 country: data2.country_name || "unknown",
@@ -186,20 +184,22 @@ ip: data2.ip || null
 };
 }
 } catch (e) {}
+return { city: "unknown", region: "unknown", country: "unknown", ip: null };
 }
-base.vpn = "unknown";
+
+async function getVpnStatus() {
 try {
 const vpnRes = await fetch(`https://proxycheck.io/v2/?key=public-9633m3-717708-o78146&vpn=1&asn=1`);
 const vpnData = await vpnRes.json();
 console.log("proxycheck response:", vpnData);
 if ((vpnData.status === "ok" || vpnData.status === "warning") && vpnData[vpnData.ip]) {
 const entry = vpnData[vpnData.ip];
-base.vpn = entry.proxy === "yes" ? (entry.type || "yes") : "no";
+return entry.proxy === "yes" ? (entry.type || "yes") : "no";
 }
 } catch (e) {
 console.log("proxycheck fetch failed:", e);
 }
-return base;
+return "unknown";
 }
 function sanitizeIp(ip) {
 return ip.replace(/[.#$\[\]\/:]/g, "_");
