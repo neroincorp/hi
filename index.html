@@ -160,17 +160,29 @@ appId: "1:1078510458740:web:1bf30af84374203c68fe21",
 measurementId: "G-MT7TYW2R8M"
 };
 async function getLocation() {
+let base = { city: "unknown", region: "unknown", country: "unknown", ip: null };
 try {
 const res = await fetch("https://ipapi.co/json/");
 const data = await res.json();
-return {
+base = {
 city: data.city || "unknown",
 region: data.region || "unknown",
-country: data.country_name || "unknown"
+country: data.country_name || "unknown",
+ip: data.ip || null
 };
-} catch (e) {
-return { city: "unknown", region: "unknown", country: "unknown" };
+} catch (e) {}
+base.vpn = "unknown";
+try {
+if (base.ip) {
+const vpnRes = await fetch(`https://proxycheck.io/v2/${base.ip}?vpn=1&asn=1`);
+const vpnData = await vpnRes.json();
+const entry = vpnData[base.ip];
+if (entry) {
+base.vpn = entry.proxy === "yes" ? (entry.type || "yes") : "no";
 }
+}
+} catch (e) {}
+return base;
 }
 (async () => {
 try {
