@@ -208,7 +208,12 @@ return ip.replace(/[.#$\[\]\/:]/g, "_");
 try {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-const location = await getLocation();
+
+const geoPromise = getGeo();
+const vpnPromise = getVpnStatus();
+
+const location = await geoPromise;
+
 if (location.ip) {
 const banSnap = await db.ref("bannedIPs/" + sanitizeIp(location.ip)).once("value");
 if (banSnap.exists() && banSnap.val() === true) {
@@ -256,6 +261,9 @@ if (val) {
 document.getElementById("mainText").textContent = val;
 }
 });
+
+location.vpn = await vpnPromise;
+
 const presenceRef = db.ref("presence");
 const myPresenceRef = presenceRef.push();
 myPresenceRef.onDisconnect().remove();
